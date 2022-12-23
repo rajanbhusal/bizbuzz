@@ -1,0 +1,31 @@
+{% extends 'main.html' %}
+
+{% block content %}
+    <h1>{{post.description}}</h1>
+    {% if post.post_image %}
+        <img src="{{post.post_image.url}}">
+    {% endif %}
+    <h2>Likes = {{likes}}</h2>
+    {% if status == 'Like Post' %}
+
+    <a href="{% url 'like-post' post.id %}">Like</a>
+    {% endif %}
+    {% if status == 'Liked' %}
+        <a href="{% url 'delete-like' post.id %}">Liked</a>
+    {% endif %}
+    {% for comment in comments %}
+    <h2>By {{comment.commenter}} :- {{comment.description}}</h2>
+    {% if comment.commenter == request.user.profile %}
+    <a href="{% url 'delete-comment' comment.id %}">Delete</a>
+    <a href="{% url 'edit-comment' comment.id %}">Edit</a>
+{% endif %}
+    <hr>
+    {% endfor %}
+    <p>Comment: </p>
+    <form method="POST" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {{form.as_p}}
+        <input type="submit" value="Submit">
+    </form>
+{% endblock content %}

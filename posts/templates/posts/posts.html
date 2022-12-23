@@ -1,0 +1,61 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+<div class="d-flex justify-content-center mt-2">
+    <form action="" method="get" id="searchForm">
+        <input value="{{search_query}}" name="search_query" type="text" placeholder="Search Posts...">
+        <input type="submit" value="Search">
+    </form>    
+</div>
+<a href="{% url 'create-post' %}" class="btn btn-primary ml-2 mt-2">
+    Create Post +
+</a>
+<div class="d-flex align-items-start flex-column pl-2">
+    {% for postObj in posts %}
+        <div class="post mw-100 border-bottom pt-1">
+            <a href="{% url 'profile' postObj.owner.id %}">
+                <img src="{{postObj.owner.profile_image.url}}" alt="" class="rounded-circle" style="width: 50px; height: 50px;">
+                <h>{{postObj.owner}}</h>
+            </a>
+            <a href="{% url 'post' postObj.id %}" class="mt-1 text-dark">
+                <p>{{postObj.description}}</p>
+                {% if postObj.post_image %}
+                <img src="{{postObj.post_image.url}}" alt="" class="w-50">
+                {% endif %}
+                <p>{{postObj.created}}</p>
+            </a>
+                {% if request.user.profile == postObj.owner %}
+                    <a href="{% url 'delete-post' postObj.id %}" class="btn btn-primary">Delete</a> 
+                    <a href="{% url 'edit-post' postObj.id %}" class="btn btn-primary">Edit</a>
+                {% endif %}
+        </div>
+    {% endfor %}
+</div>
+<nav aria-label="Page navigation example" class="d-flex justify-content-center">
+<ul class="pagination">
+    
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+            <a href="?page=1" class="page-link" >&laquo; first</a>
+        </li>
+        <li class="page-item">
+            <a href="?page={{ page_obj.previous_page_number }}" class="page-link" data-page="{{page_obj.previous_page_number}}">previous</a>
+        {% endif %}
+        </li>
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <a href="?page={{ page_obj.next_page_number }}" class="page-link" data-page="{{page_obj.next_page_number}}">next</a>
+        </li>
+        <li class="page-item">
+            <a href="?page={{ page_obj.paginator.num_pages }}" class="page-link" data-page="{{page_obj.paginator.num_pages}}">last &raquo;</a>
+        </li>
+        {% endif %}
+        <li class="page-item ml-3">
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+        </li>
+</ul>
+</nav>
+{% endblock content %}

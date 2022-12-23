@@ -1,0 +1,15 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<p>Are you sure want to delete {{deleteObj}}?</p>
+    <form method="post" action="">
+        {% csrf_token %}
+        <input type="submit" value="Submit">
+    </form>
+    {% if obj == 'comment' %}
+        <a href="{% url 'post' deleteObj.commented_post.id %}">Go back</a>
+    {% else %}
+        <a href="{% url 'posts' %}">Go back</a>
+    {% endif %}
+
+{% endblock content %}

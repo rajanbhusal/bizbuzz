@@ -1,0 +1,32 @@
+{% extends 'main.html' %}
+
+{% block content %}
+    <h1>{{profileObj.name}}</h1>
+    <img src="{{profileObj.profile_image.url}}" alt="Responsive image" class="image-fluid image-thumbnail rounded-circle w-100 h-100">
+    {% if request.user.profile != profileObj %}
+    <a href="{% url 'sendMessage' profileObj.id %}" class="btn btn-primary">Send Message</a>
+    {% endif %}
+    {% if request.user.profile == profileObj %}
+    <a href="{% url 'updateUser' %}" class="btn btn-primary">Edit Profile</a>
+    {% endif %}
+    <h1>All Posts by {{profileObj.name}}</h1>
+    {% for postObj in posts %}
+    <div class="post mw-100 border-bottom pt-1">
+        <a href="{% url 'profile' postObj.owner.id %}">
+            <img src="{{postObj.owner.profile_image.url}}" class="rounded-circle" style="width: 50px; height: 50px;">
+            <h>{{postObj.owner}}</h>
+        </a>
+        <a href="{% url 'post' postObj.id %}" class="mt-1 text-dark">
+            <p>{{postObj.description}}</p>
+            {% if postObj.post_image %}
+            <img src="{{postObj.post_image.url}}" alt="" class="w-50">
+            {% endif %}
+            <p>{{postObj.created}}</p>
+        </a>
+        {% if request.user.profile == postObj.owner %}
+                   <a href="{% url 'delete-post' postObj.id %}" class="btn btn-primary">Delete</a> 
+                    <a href="{% url 'edit-post' postObj.id %}" class="btn btn-primary">Edit</a>
+                {% endif %}
+    </div>
+    {% endfor %}
+{% endblock content %}

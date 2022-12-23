@@ -1,0 +1,17 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<a href="{% url 'sendMessage' message.sender.id %}" class="btn btn-primary mt-3">Reply</a>
+
+{% for message in all_messages %}
+<div class="d-flex align-items-center">
+
+    <img src="{{message.sender.profile_image.url}}" alt="" class="rounded-circle" style="width: 50px; height: 50px;">
+    <a href="{% url 'profile' message.sender.id %}">{{message.sender}}</a>
+    <h4 class="ml-2">{{message.description}}</h4>
+    {% if message.text_image %}
+    <img src="{{message.text_image.url}}" alt="">
+    {% endif %}
+</div>
+{% endfor %}
+{% endblock content %}

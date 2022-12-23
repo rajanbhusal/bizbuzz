@@ -1,0 +1,16 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<h3>People:</h3>
+<div>
+    {% for profile in profiles %}
+    {% if profile != request.user.profile %}
+        <a href="{% url 'profile' profile.id %}" class="pt-2">
+            <h1>{{profile.name}}</h1>
+            <img src="{{profile.profile_image.url}}" class="w-50 h-50 rounded-circle" alt="">
+        </a>
+    {% endif %}
+{% endfor %}
+</div>
+
+{% endblock content %}

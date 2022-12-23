@@ -1,0 +1,31 @@
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="{% url 'posts' %}">BIZBUZZ</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto mr-2">
+        <li class="nav-item active ml-1 mr-1">
+          <a class="nav-link" href="{% url 'posts' %}">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item active ml-1 mr-1">
+          <a class="nav-link" href="{% url 'posts' %}">Feed</a>
+        </li>
+        <li class="nav-item active ml-1 mr-1">
+          <a class="nav-link disabled" href="{% url 'users' %}">People</a>
+        </li>
+        <li class="nav-item active ml-1 mr-1">
+          <a class="nav-link disabled" href="{% url 'inbox' %}">Messages</a>
+        </li>
+        {% if request.user.is_authenticated %}
+        <li class="nav-item active ml-1 mr-1">
+          <a class="nav-link disabled" href="{% url 'profile' request.user.profile.id %}">{{request.user.profile}} (You) </a>
+        </li>
+        {% endif %}
+        <li class="nav-item active ml-1 mr-1">
+          <a class="nav-link disabled" href="{% url 'logout' %}">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
