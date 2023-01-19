@@ -1,1 +1,0 @@
-web gunicorn bizbuzz.wsgi:application --log-file -
